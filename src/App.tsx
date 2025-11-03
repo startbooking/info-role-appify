@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Session } from "@supabase/supabase-js";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import FirstTimeSetup from "./pages/FirstTimeSetup";
 import Dashboard from "./pages/Dashboard";
 import Surveys from "./pages/Surveys";
 import Analytics from "./pages/Analytics";
@@ -60,6 +61,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/setup" element={<FirstTimeSetup />} />
           <Route
             path="/dashboard"
             element={

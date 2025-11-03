@@ -25,17 +25,35 @@ const Auth = () => {
     try {
       if (isLogin) {
         const { error } = await signIn(email, password);
-        if (error) throw error;
+        if (error) {
+          if (error.message.includes("Invalid login credentials")) {
+            toast.error("Credenciales inválidas. Verifica tu correo y contraseña o regístrate primero.");
+          } else {
+            toast.error(error.message);
+          }
+          throw error;
+        }
         toast.success("¡Inicio de sesión exitoso!");
         navigate("/dashboard");
       } else {
+        if (!fullName.trim()) {
+          toast.error("El nombre completo es requerido");
+          return;
+        }
         const { error } = await signUp(email, password, fullName, role);
-        if (error) throw error;
-        toast.success("¡Cuenta creada exitosamente!");
+        if (error) {
+          if (error.message.includes("already registered")) {
+            toast.error("Este correo ya está registrado. Intenta iniciar sesión.");
+          } else {
+            toast.error(error.message);
+          }
+          throw error;
+        }
+        toast.success("¡Cuenta creada exitosamente! Redirigiendo...");
         navigate("/dashboard");
       }
     } catch (error: any) {
-      toast.error(error.message || "Ocurrió un error");
+      console.error("Error de autenticación:", error);
     } finally {
       setLoading(false);
     }
